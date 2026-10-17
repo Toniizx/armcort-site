@@ -30,7 +30,10 @@ function Cena({ progresso, leve }: { progresso: MutableRefObject<number>; leve: 
   const longas = useRef<(THREE.Mesh | null)[]>([]);
   const ultimaDobra = useRef(-1);
   const { size } = useThree();
-  const desktop = size.width >= 768;
+  const desktop = size.width >= 1024;
+  // no celular a tela é estreita: a peça diminui conforme a proporção e a câmera recua menos
+  const escala = desktop ? 1 : Math.min(0.62, (size.width / size.height) * 0.98);
+  const camFinal = desktop ? 11.5 : 8.6;
 
   const desenvolvido = 4 * A + 2 * G;
   const geoSobra = useMemo(() => geometriaVergalhao(pontosReta(1.4, 10), R, q), [q]);
@@ -113,12 +116,12 @@ function Cena({ progresso, leve }: { progresso: MutableRefObject<number>; leve: 
     tudo.current.rotation.y += dt * 0.12 * vista;
     if (vista < 0.01) tudo.current.rotation.y = THREE.MathUtils.lerp(tudo.current.rotation.y, 0, 0.1);
     const cam = state.camera as THREE.PerspectiveCamera;
-    cam.position.z = THREE.MathUtils.lerp(7.2, 11.5, vista);
+    cam.position.z = THREE.MathUtils.lerp(7.2, camFinal, vista);
     cam.lookAt(0, 0, 0);
   });
 
   return (
-    <group ref={tudo} position={desktop ? [1.9, 0, 0] : [0, 1.1, 0]} scale={desktop ? 1 : 0.62}>
+    <group ref={tudo} position={desktop ? [1.9, 0, 0] : [0, 0.72, 0]} scale={escala}>
       <group ref={pecaGiro}>
         <mesh ref={barra} geometry={geoInicial} material={mat} />
         <mesh ref={sobra} geometry={geoSobra} material={mat} position={[desenvolvido / 2 + 0.72, 0, 0]} />

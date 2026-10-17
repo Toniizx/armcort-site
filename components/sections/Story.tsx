@@ -8,6 +8,7 @@ import { use3D, usePerto } from "@/components/three/use3d";
 import { desenhos } from "@/components/three/StepDrawings";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const StoryScene = dynamic(() => import("@/components/three/StoryScene"), { ssr: false });
 
@@ -63,12 +64,12 @@ function EtapasEmCartoes() {
   );
 }
 
-/* Computador com 3D: a cena presa à rolagem, com o painel das etapas ao lado. */
+/* Com 3D: a cena presa à rolagem, com o painel das etapas (ao lado no computador, embaixo no celular). */
 function EtapasEm3D({ leve }: { leve: boolean }) {
   const raiz = useRef<HTMLElement>(null);
   const progresso = useRef(0);
   const [ativa, setAtiva] = useState(0);
-  const perto = usePerto(raiz);
+  const perto = usePerto(raiz, "150% 0px");
 
   useEffect(() => {
     const st = ScrollTrigger.create({
@@ -92,17 +93,22 @@ function EtapasEm3D({ leve }: { leve: boolean }) {
     };
   }, []);
 
+  const atual = etapas[ativa];
   return (
-    <section ref={raiz} id="solucoes" className="escuro relative h-[400vh]" aria-labelledby="story-titulo">
+    <section ref={raiz} id="solucoes" className="escuro relative h-[340vh] lg:h-[400vh]" aria-labelledby="story-titulo">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         <div className="grade-escura pointer-events-none absolute inset-0" aria-hidden />
         <div className="absolute inset-0" aria-hidden>
           {perto && <StoryScene progresso={progresso} leve={leve} />}
         </div>
-        <div className="wrap relative z-10 flex h-full items-center pt-[var(--header-h)]">
-          <div className="painel w-full max-w-[30rem] p-6 lg:p-8">
-            <Cabecalho />
-            <ol className="mt-8 grid gap-1">
+        {/* computador: painel à esquerda com a lista; celular: painel compacto embaixo com a etapa atual */}
+        <div className="wrap relative z-10 flex h-full flex-col justify-end pb-[calc(56px+env(safe-area-inset-bottom)+16px)] pt-[var(--header-h)] sm:pb-8 lg:justify-center lg:pb-0">
+          <div className="painel w-full p-5 sm:max-w-[30rem] lg:p-8">
+            <p className="rotulo">Da barra à armação</p>
+            <h2 id="story-titulo" className="titulo mt-4 max-lg:sr-only">
+              Como o aço ganha forma
+            </h2>
+            <ol className="mt-8 hidden gap-1 lg:grid">
               {etapas.map((e, i) => (
                 <li
                   key={e.titulo}
@@ -113,11 +119,19 @@ function EtapasEm3D({ leve }: { leve: boolean }) {
                 </li>
               ))}
             </ol>
-            <p className="mt-6 min-h-[3em] text-[15px] text-aco" aria-live="polite">
-              {etapas[ativa].nota}
+            <div className="mt-4 lg:hidden" aria-live="polite">
+              <p className="tnum text-[13px] font-semibold uppercase tracking-[0.12em] text-aco">
+                Etapa {String(ativa + 1).padStart(2, "0")} de 06
+              </p>
+              <p className="mt-1 font-display text-[1.45rem] font-semibold leading-tight text-white">{atual.titulo}</p>
+            </div>
+            <p className="mt-2 min-h-[3em] text-[15px] text-aco lg:mt-6" aria-live="polite">
+              {atual.nota}
             </p>
-            <div className="mt-4 h-[3px] w-full bg-white/15" aria-hidden>
-              <div className="h-full bg-white transition-[width] duration-300" style={{ width: `${((ativa + 1) / etapas.length) * 100}%` }} />
+            <div className="mt-3 grid grid-cols-6 gap-1 lg:mt-4" aria-hidden>
+              {etapas.map((e, i) => (
+                <span key={e.titulo} className={`h-[3px] transition-colors duration-300 ${i <= ativa ? "bg-white" : "bg-white/15"}`} />
+              ))}
             </div>
           </div>
         </div>
@@ -126,17 +140,13 @@ function EtapasEm3D({ leve }: { leve: boolean }) {
   );
 }
 
+// Com 3D (computador e celular): a cena presa à rolagem. Sem WebGL ou com "reduzir movimento": os cartões.
 export default function Story() {
   const { pronto, pode, leve } = use3D();
-  const [celular, setCelular] = useState(true);
+  // carrega a cena 3D antes de a pessoa chegar na seção
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)");
-    const ver = () => setCelular(mq.matches);
-    ver();
-    mq.addEventListener("change", ver);
-    return () => mq.removeEventListener("change", ver);
-  }, []);
-
-  if (!pronto || celular || !pode) return <EtapasEmCartoes />;
+    if (pode) import("@/components/three/StoryScene");
+  }, [pode]);
+  if (!pronto || !pode) return <EtapasEmCartoes />;
   return <EtapasEm3D leve={leve} />;
 }
