@@ -13,6 +13,8 @@ const out = path.join(raiz, "out");
 const rodar = (cmd, opts = {}) => execSync(cmd, { stdio: "inherit", ...opts });
 
 const remoto = execSync("git remote get-url origin", { encoding: "utf8" }).trim();
+const autor = (campo) => execSync(`git config ${campo}`, { encoding: "utf8" }).trim();
+const quem = `-c user.name="${autor("user.name")}" -c user.email="${autor("user.email")}"`;
 
 // A rota do orçamento precisa de servidor: fica de fora só durante esta montagem.
 if (fs.existsSync(api)) fs.renameSync(api, apiFora);
@@ -27,6 +29,6 @@ fs.writeFileSync(path.join(out, ".nojekyll"), "");
 rodar("git init -q", { cwd: out });
 rodar("git checkout -q -b gh-pages", { cwd: out });
 rodar("git add -A", { cwd: out });
-rodar(`git commit -q -m "Publica o site (${new Date().toISOString().slice(0, 16).replace("T", " ")})"`, { cwd: out });
+rodar(`git ${quem} commit -q -m "Publica o site (${new Date().toISOString().slice(0, 16).replace("T", " ")})"`, { cwd: out });
 rodar(`git push -f "${remoto}" gh-pages`, { cwd: out });
 console.log("\nPublicado. Em 1 ou 2 minutos: https://toniizx.github.io" + BASE + "/");

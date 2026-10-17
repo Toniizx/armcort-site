@@ -3,6 +3,8 @@ import { site } from "@/lib/site";
 import { servicos, produtos } from "@/lib/content";
 import { obrasPublicadas } from "@/lib/obras";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const paginas = ["", "/a-arm-cort", "/solucoes", "/estrutura", "/obras", "/contato", "/orcamento"];
   return [
