@@ -27,6 +27,8 @@ const nextConfig: NextConfig = githubPages
       basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
       trailingSlash: true,
       images: { unoptimized: true },
+      // Os tipos já são conferidos na montagem normal; aqui a rota do orçamento fica de fora e confundiria a conferência.
+      typescript: { ignoreBuildErrors: true },
     }
   : {
       trailingSlash: false,

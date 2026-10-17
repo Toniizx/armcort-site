@@ -125,7 +125,7 @@ function Cena({ progresso, leve }: { progresso: MutableRefObject<number>; leve: 
       </group>
       <mesh ref={lamina} position={[desenvolvido / 2, 1.6, 0]}>
         <planeGeometry args={[0.012, 1.4]} />
-        <meshBasicMaterial color="#ff6b16" transparent opacity={0} toneMapped={false} />
+        <meshBasicMaterial color="#ffffff" transparent opacity={0} toneMapped={false} />
       </mesh>
       <pointLight ref={faisca} position={[desenvolvido / 2, 0, 0.3]} color="#ff7a2a" distance={3} intensity={0} />
       {Array.from({ length: N }, (_, i) => (

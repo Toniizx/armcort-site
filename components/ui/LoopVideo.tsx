@@ -47,7 +47,7 @@ export default function LoopVideo({ src, label, className = "", inicio = 0 }: { 
       <button
         type="button"
         onClick={alternar}
-        className="absolute bottom-3 right-3 z-10 flex h-11 items-center bg-navy/80 px-3 text-[13px] text-white transition-colors hover:bg-orange hover:text-navy"
+        className="absolute bottom-3 right-3 z-10 flex h-11 items-center bg-azul-escuro/80 px-3 text-[13px] text-white transition-colors hover:bg-white hover:text-azul"
         aria-label={pausado ? `Tocar o vídeo: ${label}` : `Pausar o vídeo: ${label}`}
       >
         {pausado ? "Tocar" : "Pausar"}

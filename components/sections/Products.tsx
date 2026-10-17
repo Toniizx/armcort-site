@@ -4,90 +4,114 @@ import Link from "next/link";
 import { useState } from "react";
 import { produtos } from "@/lib/content";
 
-// Tabela de produtos numa só medida de letra. Ao escolher uma bitola, o corte da barra aparece em escala real relativa.
+// Tabela de produtos com as medidas reais. Ao escolher uma bitola, o corte da barra aparece em escala.
 export default function Products({ titulo = true }: { titulo?: boolean }) {
   const [sel, setSel] = useState<{ produto: string; medida: string; d?: number }>({ produto: "vergalhao-ca-50", medida: "12,5", d: 12.5 });
   const maxD = 32;
   const escolhido = produtos.find((p) => p.slug === sel.produto)!;
 
   return (
-    <section id="produtos" data-theme="light" aria-labelledby="produtos-titulo" className="relative bg-paper text-navy">
-      <div className="wrap grid gap-12 py-[clamp(96px,14vh,180px)] lg:grid-cols-12">
-        <div className="lg:col-span-8">
-          {titulo ? (
-            <h2 id="produtos-titulo" data-split className="font-display text-[clamp(2.2rem,5.6vw,6rem)] font-semibold uppercase leading-[0.92] tracking-[-0.045em]">
-              O aço que vendemos
-            </h2>
-          ) : (
-            <h2 id="produtos-titulo" className="sr-only">
-              Produtos
-            </h2>
-          )}
-          <div className="mt-12">
-            {produtos.map((p) => (
-              <div key={p.slug} className="grid gap-2 py-4 md:grid-cols-[minmax(0,1.1fr)_minmax(0,2fr)] md:gap-6">
-                <Link href={`/produtos/${p.slug}`} className="link-line self-start font-display text-[clamp(1.25rem,2.1vw,1.9rem)] font-medium tracking-[-0.02em]">
-                  {p.nome}
-                </Link>
-                <div className="flex flex-wrap gap-1.5" role="group" aria-label={`Medidas de ${p.nome}`}>
-                  {p.medidas.map((m, i) => {
-                    const ativo = sel.produto === p.slug && sel.medida === m;
-                    return (
-                      <button
-                        key={m}
-                        type="button"
-                        aria-pressed={ativo}
-                        onClick={() => setSel({ produto: p.slug, medida: m, d: p.diametros?.[i] })}
-                        onMouseEnter={() => setSel({ produto: p.slug, medida: m, d: p.diametros?.[i] })}
-                        className={`tnum min-h-[44px] min-w-[56px] px-3 text-[clamp(1rem,1.3vw,1.2rem)] transition-colors ${
-                          ativo ? "bg-navy text-white" : "bg-paper-2 text-navy hover:bg-navy hover:text-white"
-                        }`}
-                      >
-                        {m}
-                        {p.diametros ? <span className="sr-only"> milímetros</span> : null}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 max-w-[60ch] text-[15px] text-muted-dark">
-            Vergalhões em milímetros, vendidos por quilo ou por barra. Telas por unidade; arames e pregos por quilo. {produtos[0].norma}
-          </p>
-        </div>
-
-        {/* a peça escolhida, em escala */}
-        <aside className="flex flex-col justify-between gap-8 bg-navy p-8 text-white lg:sticky lg:top-[14vh] lg:col-span-4 lg:h-[72svh]" aria-live="polite">
-          <div>
-            <p className="text-[15px] text-metal">Você escolheu</p>
-            <p className="mt-1 font-display text-[clamp(1.45rem,2.3vw,2.25rem)] leading-tight">
-              {escolhido.nome} · <span className="tnum">{sel.medida}</span>
-              {sel.d ? " mm" : ""}
+    <section id="produtos" aria-labelledby="produtos-titulo" className="relative bg-white py-[clamp(72px,12vh,140px)]">
+      <div className="wrap">
+        {titulo ? (
+          <div className="grid gap-6 lg:grid-cols-12 lg:items-end" data-reveal-group>
+            <div className="lg:col-span-7">
+              <p data-reveal className="rotulo">
+                Produtos
+              </p>
+              <h2 id="produtos-titulo" data-split className="titulo mt-4">
+                O aço que vendemos
+              </h2>
+            </div>
+            <p data-reveal className="text-[1.0625rem] leading-relaxed text-texto-2 lg:col-span-4 lg:col-start-9">
+              Escolha uma medida para ver o vergalhão em escala e levar direto para o orçamento.
             </p>
           </div>
-          <div className="flex flex-1 items-center justify-center">
-            {sel.d ? (
-              <svg viewBox="-60 -60 120 120" className="h-full max-h-[34svh] w-full" role="img" aria-label={`Corte de um vergalhão de ${sel.medida} mm, em escala com o de 32 mm`}>
-                <circle r={(32 / maxD) * 50} fill="none" stroke="#9aa6b2" strokeWidth="0.6" strokeDasharray="1.5 2" />
-                <circle r={(sel.d / maxD) * 50} fill="#9aa6b2" style={{ transition: "r .5s cubic-bezier(.22,1,.36,1)" }} />
-                <line x1={-(sel.d / maxD) * 50} y1={(sel.d / maxD) * 50 + 8} x2={(sel.d / maxD) * 50} y2={(sel.d / maxD) * 50 + 8} stroke="#ff6b16" strokeWidth="0.8" />
-              </svg>
-            ) : (
-              <p className="tnum font-display text-[clamp(3rem,7vw,6rem)] font-semibold tracking-[-0.04em]">{sel.medida}</p>
-            )}
+        ) : (
+          <h2 id="produtos-titulo" className="sr-only">
+            Produtos
+          </h2>
+        )}
+
+        <div className={`grid gap-5 lg:grid-cols-12 ${titulo ? "mt-12" : ""}`}>
+          <div className="painel lg:col-span-8">
+            <table className="w-full border-collapse text-left max-md:block">
+              <thead className="max-md:hidden">
+                <tr className="bg-azul-claro text-[13px] font-semibold uppercase tracking-[0.1em] text-azul">
+                  <th scope="col" className="px-5 py-3">
+                    Produto
+                  </th>
+                  <th scope="col" className="px-5 py-3">
+                    Medidas disponíveis
+                  </th>
+                  <th scope="col" className="px-5 py-3">
+                    Venda por
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="max-md:block">
+                {produtos.map((p) => (
+                  <tr key={p.slug} className="border-t border-linha align-top max-md:block max-md:py-3">
+                    <th scope="row" className="px-5 py-4 font-normal max-md:block max-md:py-1">
+                      <Link href={`/produtos/${p.slug}`} className="link-line font-display text-[1.15rem] font-semibold text-azul">
+                        {p.nome}
+                      </Link>
+                    </th>
+                    <td className="px-5 py-4 max-md:block max-md:py-1">
+                      <div className="flex flex-wrap gap-1.5" role="group" aria-label={`Medidas de ${p.nome}`}>
+                        {p.medidas.map((m, i) => {
+                          const ativo = sel.produto === p.slug && sel.medida === m;
+                          return (
+                            <button
+                              key={m}
+                              type="button"
+                              aria-pressed={ativo}
+                              onClick={() => setSel({ produto: p.slug, medida: m, d: p.diametros?.[i] })}
+                              onMouseEnter={() => setSel({ produto: p.slug, medida: m, d: p.diametros?.[i] })}
+                              className={`tnum min-h-[40px] min-w-[52px] border px-2.5 text-[15px] font-medium transition-colors ${
+                                ativo ? "border-azul bg-azul text-white" : "border-linha bg-white text-texto hover:border-azul hover:text-azul"
+                              }`}
+                            >
+                              {m}
+                              {p.diametros ? <span className="sr-only"> milímetros</span> : null}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </td>
+                    <td className="px-5 py-4 text-[15px] text-texto-2 max-md:block max-md:py-1"><span className="md:hidden">Venda por </span>{p.unidade}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="border-t border-linha px-5 py-4 text-[14px] text-texto-2">Vergalhões em milímetros. {produtos[0].norma}</p>
           </div>
-          <div className="flex flex-col gap-3">
-            {sel.d ? <p className="text-[15px] text-ink">O círculo pontilhado é o vergalhão de 32 mm, a maior bitola da tabela.</p> : null}
-            <Link
-              href={`/orcamento?produto=${encodeURIComponent(escolhido.slug)}&medida=${encodeURIComponent(sel.medida)}`}
-              className="btn self-start"
-              data-magnetic
-            >
+
+          {/* a peça escolhida, em escala */}
+          <aside className="escuro painel flex flex-col gap-6 p-6 lg:sticky lg:top-[calc(var(--header-h)+24px)] lg:col-span-4 lg:self-start" aria-live="polite">
+            <div>
+              <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-aco">Você escolheu</p>
+              <p className="mt-2 font-display text-[1.5rem] font-semibold leading-tight text-white">
+                {escolhido.nome} · <span className="tnum">{sel.medida}</span>
+                {sel.d ? " mm" : ""}
+              </p>
+            </div>
+            <div className="flex h-[220px] items-center justify-center">
+              {sel.d ? (
+                <svg viewBox="-60 -60 120 120" className="h-full w-full" role="img" aria-label={`Corte de um vergalhão de ${sel.medida} mm, em escala com o de 32 mm`}>
+                  <circle r={(32 / maxD) * 50} fill="none" stroke="#b9c2d3" strokeWidth="0.6" strokeDasharray="1.5 2" />
+                  <circle r={(sel.d / maxD) * 50} fill="#e9edf5" style={{ transition: "r .5s cubic-bezier(.22,1,.36,1)" }} />
+                </svg>
+              ) : (
+                <p className="tnum font-display text-[clamp(3rem,6vw,5rem)] font-semibold tracking-[-0.04em] text-white">{sel.medida}</p>
+              )}
+            </div>
+            {sel.d ? <p className="text-[14px] text-aco">O círculo pontilhado é o vergalhão de 32 mm, a maior bitola da tabela.</p> : null}
+            <Link href={`/orcamento?produto=${encodeURIComponent(escolhido.slug)}&medida=${encodeURIComponent(sel.medida)}`} className="btn w-full" data-magnetic>
               Pôr no orçamento <span aria-hidden>↗</span>
             </Link>
-          </div>
-        </aside>
+          </aside>
+        </div>
       </div>
     </section>
   );

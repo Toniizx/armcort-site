@@ -1,113 +1,82 @@
 import Link from "next/link";
 import { servicos } from "@/lib/content";
 import { CorteDemo, DobraDemo, MontagemDemo, SobMedidaDemo } from "./Demos";
+import FotoImg from "@/components/ui/FotoImg";
+import { fotoDoServico } from "@/lib/fotos";
 
-function Titulo({ i }: { i: number }) {
-  const s = servicos[i];
+const demos = [CorteDemo, DobraDemo, MontagemDemo, SobMedidaDemo];
+
+function Check() {
   return (
-    <div>
-      <p className="tnum font-display text-[15px] text-orange">{s.numero}</p>
-      <h3 data-split className="mt-2 font-display text-[clamp(2.2rem,5.6vw,6rem)] font-semibold uppercase leading-[0.92] tracking-[-0.045em] text-white">
-        {s.nome}
-      </h3>
-    </div>
+    <svg viewBox="0 0 16 16" className="mt-1 h-4 w-4 shrink-0 text-azul" aria-hidden>
+      <path d="M2 8.5 6 12l8-8.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="square" />
+    </svg>
   );
 }
 
-function Detalhes({ i, claro = false }: { i: number; claro?: boolean }) {
-  const s = servicos[i];
+export default function Services({ id = "servicos" }: { id?: string }) {
   return (
-    <div data-reveal-group>
-      <p data-reveal className={`font-display text-[clamp(1.45rem,2.3vw,2.25rem)] leading-[1.15] tracking-[-0.02em] ${claro ? "text-navy" : "text-white"}`}>
-        {s.titulo}
-      </p>
-      <p data-reveal className={`mt-4 max-w-[52ch] ${claro ? "text-navy" : "text-ink"}`}>
-        {s.texto}
-      </p>
-      <Link href={`/solucoes/${s.slug}`} data-reveal className={`btn-ghost link-line mt-4 ${claro ? "!text-navy" : ""}`}>
-        Ver {s.nome.toLowerCase()} <span aria-hidden>→</span>
-      </Link>
-    </div>
-  );
-}
+    <section id={id} aria-labelledby="servicos-titulo" className="relative bg-cinza-claro py-[clamp(72px,12vh,140px)]">
+      <div className="wrap">
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end" data-reveal-group>
+          <div className="lg:col-span-7">
+            <p data-reveal className="rotulo">
+              Soluções
+            </p>
+            <h2 id="servicos-titulo" data-split className="titulo mt-4">
+              Quatro jeitos de trabalhar o aço para a sua obra
+            </h2>
+          </div>
+          <p data-reveal className="text-[1.0625rem] leading-relaxed text-texto-2 lg:col-span-4 lg:col-start-9">
+            Da barra cortada na medida à armação montada e soldada. Experimente cada processo nos quadros abaixo.
+          </p>
+        </div>
 
-export default function Services() {
-  return (
-    <section aria-labelledby="servicos-titulo" className="relative">
-      <div className="wrap pb-16 pt-[clamp(96px,14vh,160px)]">
-        <h2 id="servicos-titulo" data-split className="max-w-[16ch] font-display text-[clamp(2.2rem,5.6vw,6rem)] font-semibold uppercase leading-[0.92] tracking-[-0.045em] text-white">
-          Quatro jeitos de trabalhar o aço
-        </h2>
-        <div data-cota className="cota mt-8 text-metal/40" aria-hidden />
+        <div className="mt-12 grid gap-5 lg:grid-cols-2" data-reveal-group>
+          {servicos.map((s, i) => {
+            const Demo = demos[i];
+            return (
+              <article key={s.slug} data-reveal className="painel flex flex-col">
+                <header className="flex items-center justify-between gap-4 border-b border-linha px-5 py-4 md:px-6">
+                  <h3 className="flex items-baseline gap-3 font-display text-[clamp(1.3rem,1.8vw,1.6rem)] font-semibold leading-tight text-azul">
+                    <span className="tnum text-[0.75em] text-cinza">{s.numero}</span>
+                    {s.nome}
+                  </h3>
+                  <Link href={`/solucoes/${s.slug}`} className="link-line shrink-0 text-[14px] font-semibold text-azul">
+                    Saiba mais →
+                  </Link>
+                </header>
+                <div className="relative aspect-[16/6] overflow-hidden">
+                  <FotoImg foto={fotoDoServico[s.slug]} sizes="(min-width: 1024px) 46vw, 92vw" />
+                </div>
+                <div className="escuro p-5 md:p-6">
+                  <p className="mb-4 text-[13px] font-semibold uppercase tracking-[0.12em] text-aco">Experimente</p>
+                  <Demo />
+                </div>
+                <div className="flex flex-1 flex-col p-5 md:p-6">
+                  <p className="font-display text-[1.2rem] font-semibold text-texto">{s.titulo}</p>
+                  <p className="mt-2 text-[15px] leading-relaxed text-texto-2">{s.resumo}</p>
+                  <ul className="mt-4 grid gap-2 text-[15px] text-texto sm:grid-cols-2">
+                    {s.inclui.slice(0, 4).map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <Check />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto pt-6">
+                    <Link href={`/orcamento?servico=${s.slug}`} className="btn btn-contorno w-full sm:w-auto">
+                      Orçar {s.nome.toLowerCase()} <span aria-hidden>↗</span>
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
-
-      {/* 01 Corte: faixa larga, a pessoa corta a barra */}
-      <article className="wrap grid gap-10 pb-[clamp(96px,14vh,180px)] md:grid-cols-12">
-        <div className="md:col-span-5">
-          <Titulo i={0} />
-        </div>
-        <div className="md:col-span-6 md:col-start-7 md:pt-10">
-          <Detalhes i={0} />
-        </div>
-        <div className="md:col-span-12">
-          <CorteDemo />
-        </div>
-      </article>
-
-      {/* 02 Dobra: desenho grande à esquerda, texto à direita */}
-      <article className="bg-tech">
-        <div className="wrap grid items-center gap-10 py-[clamp(80px,12vh,160px)] md:grid-cols-12">
-          <div className="md:col-span-7">
-            <DobraDemo />
-          </div>
-          <div className="md:col-span-4 md:col-start-9">
-            <Titulo i={1} />
-            <div className="mt-8">
-              <Detalhes i={1} />
-            </div>
-          </div>
-        </div>
-      </article>
-
-      {/* 03 Montagem: título preso à esquerda, armação se montando à direita */}
-      <article className="wrap grid gap-10 py-[clamp(96px,14vh,180px)] md:grid-cols-12">
-        <div className="md:col-span-6">
-          <div className="md:sticky md:top-[18vh]">
-            <Titulo i={2} />
-            <div className="mt-8">
-              <Detalhes i={2} />
-            </div>
-            <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-1 text-[15px] text-white">
-              {servicos[2].pecas!.map((p) => (
-                <li key={p}>{p}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className="flex justify-center md:col-span-5 md:col-start-8 md:min-h-[110svh] md:items-center">
-          <MontagemDemo />
-        </div>
-      </article>
-
-      {/* 04 Sob medida: prancha clara */}
-      <article data-theme="light" className="bg-paper text-navy">
-        <div className="wrap py-[clamp(80px,12vh,160px)]">
-          <div className="grid gap-8 md:grid-cols-12">
-            <div className="md:col-span-6">
-              <p className="tnum font-display text-[15px] text-[#c2410c]">{servicos[3].numero}</p>
-              <h3 data-split className="mt-2 font-display text-[clamp(2.2rem,5.6vw,6rem)] font-semibold uppercase leading-[0.92] tracking-[-0.045em]">
-                {servicos[3].nome}
-              </h3>
-            </div>
-            <div className="md:col-span-5 md:col-start-8">
-              <Detalhes i={3} claro />
-            </div>
-          </div>
-          <div className="mt-14 bg-navy p-[clamp(16px,3vw,48px)] text-white">
-            <SobMedidaDemo />
-          </div>
-        </div>
-      </article>
     </section>
   );
 }
+
+export { Check };

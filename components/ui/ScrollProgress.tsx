@@ -21,8 +21,8 @@ export default function ScrollProgress() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <div aria-hidden className="fixed inset-x-0 top-0 z-[60] h-[2px]">
-      <div ref={barra} className="h-full origin-left scale-x-0 bg-orange" />
+    <div aria-hidden className="fixed inset-x-0 top-0 z-[85] h-[3px]">
+      <div ref={barra} className="h-full origin-left scale-x-0 bg-azul" />
     </div>
   );
 }

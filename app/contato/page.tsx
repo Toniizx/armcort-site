@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import PageHero from "@/components/layout/PageHero";
 import { site, enderecoLinha, whatsappLink } from "@/lib/site";
 
@@ -11,81 +12,105 @@ export const metadata: Metadata = {
 export default function Page() {
   const wa = whatsappLink("Olá! Vim pelo site da ARM-CORT.");
   const canais = [
-    { rotulo: "Telefone", valor: site.telefone, href: site.telefoneLink },
-    { rotulo: "E-mail", valor: site.email, href: `mailto:${site.email}` },
-    ...(wa ? [{ rotulo: "WhatsApp", valor: "Conversar agora", href: wa }] : []),
+    { rotulo: "Telefone", valor: site.telefone, href: site.telefoneLink, externo: false },
+    { rotulo: "E-mail", valor: site.email, href: `mailto:${site.email}`, externo: false },
+    ...(wa ? [{ rotulo: "WhatsApp", valor: "Conversar agora", href: wa, externo: true }] : []),
   ];
   const mapa = `https://www.google.com/maps?q=${encodeURIComponent("R. Vila Otília, 270, Tavares, Confins - MG, 33500-000")}&output=embed`;
 
   return (
     <>
-      <PageHero titulo="Fale com a ARM-CORT" texto="Mande o seu projeto, tire dúvidas sobre bitolas e prazos ou peça a visita de um consultor." />
+      <PageHero
+        titulo="Fale com a ARM-CORT"
+        rotulo="Contato"
+        texto="Mande o seu projeto, tire dúvidas sobre bitolas e prazos ou peça a visita de um consultor."
+      />
 
-      <section className="wrap grid gap-12 pb-[clamp(96px,14vh,180px)] md:grid-cols-12" aria-label="Canais de contato">
-        <ul className="md:col-span-7" data-reveal-group>
-          {canais.map((c) => (
-            <li key={c.rotulo} data-reveal className="py-4">
-              <p className="text-[15px] text-metal">{c.rotulo}</p>
-              <a href={c.href} className="link-line font-display text-[clamp(1.6rem,3.6vw,3.6rem)] leading-tight tracking-[-0.03em] text-white" {...(c.rotulo === "WhatsApp" ? { target: "_blank", rel: "noopener" } : {})}>
-                {c.valor}
-              </a>
+      <section className="bg-white py-[clamp(56px,10vh,120px)]" aria-label="Canais de contato">
+        <div className="wrap grid gap-5 lg:grid-cols-12">
+          <ul className="grid gap-3 lg:col-span-7" data-reveal-group>
+            {canais.map((c) => (
+              <li key={c.rotulo} data-reveal>
+                <a
+                  href={c.href}
+                  {...(c.externo ? { target: "_blank", rel: "noopener" } : {})}
+                  className="painel group flex items-center justify-between gap-4 p-6 transition-colors hover:bg-azul-claro"
+                >
+                  <span>
+                    <span className="block text-[13px] font-semibold uppercase tracking-[0.12em] text-cinza">{c.rotulo}</span>
+                    <span className="mt-1 block font-display text-[clamp(1.4rem,3vw,2.4rem)] font-semibold leading-tight tracking-[-0.02em] text-azul">{c.valor}</span>
+                  </span>
+                  <span aria-hidden className="text-[1.5rem] text-azul transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </a>
+              </li>
+            ))}
+            <li data-reveal>
+              <Link href="/orcamento" className="btn w-full !min-h-[64px]">
+                Solicitar orçamento <span aria-hidden>↗</span>
+              </Link>
             </li>
-          ))}
-        </ul>
-        <div className="flex flex-col gap-6 md:col-span-4 md:col-start-9" data-reveal-group>
-          <div data-reveal>
-            <p className="text-[15px] text-metal">Fábrica</p>
-            <p className="text-[17px] text-white">{enderecoLinha}</p>
-            <a href={site.mapa} target="_blank" rel="noopener" className="link-line mt-2 inline-block text-orange">
-              Abrir no Google Maps ↗
-            </a>
-          </div>
-          {site.horario && (
+          </ul>
+          <div className="painel flex flex-col gap-5 p-6 lg:col-span-5" data-reveal-group>
             <div data-reveal>
-              <p className="text-[15px] text-metal">Horário</p>
-              <p className="text-[17px] text-white">{site.horario}</p>
+              <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-cinza">Fábrica</p>
+              <p className="mt-1 text-[1.0625rem] text-texto">{enderecoLinha}</p>
+              <a href={site.mapa} target="_blank" rel="noopener" className="link-line mt-2 inline-block font-semibold text-azul">
+                Abrir no Google Maps ↗
+              </a>
             </div>
-          )}
-          <div data-reveal>
-            <p className="text-[15px] text-metal">Redes</p>
-            <p className="flex gap-5 text-[17px]">
-              <a href={site.instagram} target="_blank" rel="noopener" className="link-line text-white">
-                Instagram
-              </a>
-              <a href={site.facebook} target="_blank" rel="noopener" className="link-line text-white">
-                Facebook
-              </a>
+            {site.horario && (
+              <div data-reveal>
+                <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-cinza">Horário</p>
+                <p className="mt-1 text-[1.0625rem] text-texto">{site.horario}</p>
+              </div>
+            )}
+            <div data-reveal>
+              <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-cinza">Redes</p>
+              <p className="mt-1 flex gap-5 text-[1.0625rem]">
+                <a href={site.instagram} target="_blank" rel="noopener" className="link-line font-semibold text-azul">
+                  Instagram
+                </a>
+                <a href={site.facebook} target="_blank" rel="noopener" className="link-line font-semibold text-azul">
+                  Facebook
+                </a>
+              </p>
+            </div>
+            <p data-reveal className="mt-auto border-t border-linha pt-4 text-[15px] text-texto-2">
+              {site.pagamento}
             </p>
           </div>
-          <p data-reveal className="text-[15px] text-ink">
-            {site.pagamento}
-          </p>
         </div>
       </section>
 
-      <section aria-label="Mapa" className="relative h-[70svh] bg-tech">
-        <iframe
-          title="Mapa da ARM-CORT em Confins, MG"
-          src={mapa}
-          className="absolute inset-0 h-full w-full grayscale-[0.6] invert-[0.88] hue-rotate-180"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+      <section aria-label="Mapa" className="wrap pb-[clamp(56px,10vh,120px)]">
+        <div className="painel p-2">
+          <iframe title="Mapa da ARM-CORT em Confins, MG" src={mapa} className="block h-[56svh] w-full" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+        </div>
       </section>
 
-      <section id="trabalhe-conosco" className="wrap grid gap-8 py-[clamp(96px,14vh,180px)] md:grid-cols-12" aria-labelledby="trabalhe-titulo">
-        <h2 id="trabalhe-titulo" data-split className="font-display text-[clamp(2.2rem,5.6vw,6rem)] font-semibold uppercase leading-[0.92] tracking-[-0.045em] text-white md:col-span-7">
-          Trabalhe conosco
-        </h2>
-        <div className="md:col-span-4 md:col-start-9 md:self-end">
-          <p className="text-ink">
-            Plano de carreira e treinamentos em planejamento e controle, responsabilidade civil, liderança e desenvolvimento interpessoal. Para enviar seu currículo, fale
-            com a nossa equipe pelo telefone{" "}
-            <a href={site.telefoneLink} className="link-line text-white">
-              {site.telefone}
-            </a>
-            .
-          </p>
+      <section id="trabalhe-conosco" className="escuro relative py-[clamp(56px,10vh,120px)]" aria-labelledby="trabalhe-titulo">
+        <div className="grade-escura pointer-events-none absolute inset-0" aria-hidden />
+        <div className="wrap relative grid gap-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="rotulo">Carreiras</p>
+            <h2 id="trabalhe-titulo" data-split className="titulo mt-4">
+              Trabalhe conosco
+            </h2>
+          </div>
+          <div className="painel p-6 lg:col-span-5">
+            <p className="text-aco">
+              Plano de carreira e treinamentos em planejamento e controle, responsabilidade civil, liderança e desenvolvimento interpessoal.
+            </p>
+            <p className="mt-4 text-white">
+              Para enviar seu currículo, fale com a nossa equipe pelo telefone{" "}
+              <a href={site.telefoneLink} className="link-line font-semibold">
+                {site.telefone}
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </section>
     </>

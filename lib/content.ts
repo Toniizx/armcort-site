@@ -181,7 +181,3 @@ export const diferenciais = [
   { titulo: "Atitude sustentável", texto: "Separação e destinação correta dos resíduos e ações internas de conscientização sobre o uso dos recursos." },
   { titulo: "Atendimento próximo", texto: "Rapidez de entrega, qualidade do serviço e pós-venda com o apoio da equipe técnica." },
 ];
-
-// Clientes que aparecem no site antigo. [confirmar com o cliente] autorização para mostrar os nomes.
-export const clientes = ["Via Sul", "Inpar", "Votorantim", "Patrimar", "M.Roscoe", "Marco XX", "CSN", "Planar Equipamentos"];
-export const mostrarClientes = false;

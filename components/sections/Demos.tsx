@@ -25,7 +25,7 @@ export function CorteDemo() {
     <div className="select-none">
       <div
         ref={area}
-        className="relative h-[clamp(160px,22vw,260px)] touch-pan-y"
+        className="relative h-[clamp(150px,16vw,220px)] touch-pan-y"
         onPointerDown={(e) => {
           arrastando.current = true;
           deX(e.clientX);
@@ -38,22 +38,22 @@ export function CorteDemo() {
       >
         {Array.from({ length: 7 }, (_, i) => (
           <div key={i} className="absolute inset-x-0 flex items-center" style={{ top: `${8 + i * 13}%`, height: `${4 + (i % 3)}%` }}>
-            <div className="h-full bg-[#aab4be] transition-[width] duration-300 ease-out" style={{ width: `calc(${pos * 100}% - 4px)` }} />
-            <div className="h-full flex-1 translate-x-[10px] bg-[#3e4b59] transition-transform duration-300" />
+            <div className="h-full bg-[#c9d0dc] transition-[width] duration-300 ease-out" style={{ width: `calc(${pos * 100}% - 4px)` }} />
+            <div className="h-full flex-1 translate-x-[10px] bg-[#3a4a75] transition-transform duration-300" />
           </div>
         ))}
-        <div className="absolute inset-y-0 w-[2px] -translate-x-1/2 bg-orange transition-[left] duration-300 ease-out" style={{ left: `${pos * 100}%` }}>
-          <span className="absolute -top-1 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-orange" />
+        <div className="absolute inset-y-0 w-[2px] -translate-x-1/2 bg-white transition-[left] duration-300 ease-out" style={{ left: `${pos * 100}%` }}>
+          <span className="absolute -top-1 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 bg-white" />
         </div>
       </div>
       <div className="mt-5 flex flex-wrap items-end justify-between gap-4">
-        <p className="text-[15px] text-ink">
+        <p className="text-[15px] text-aco">
           Barra de 12 m · corte em{" "}
           <output htmlFor={id} className="tnum font-display text-[clamp(1.45rem,2.3vw,2.25rem)] text-white">
             {fmt.format(mm)} mm
           </output>
         </p>
-        <label className="flex w-full items-center gap-3 text-[15px] text-ink md:w-[22rem]">
+        <label className="flex w-full items-center gap-3 text-[15px] text-aco md:w-[22rem]">
           <span className="shrink-0">Arraste a lâmina</span>
           <input
             id={id}
@@ -63,7 +63,7 @@ export function CorteDemo() {
             step={0.005}
             value={pos}
             onChange={(e) => setPos(Number(e.target.value))}
-            className="w-full accent-[#ff6b16]"
+            className="w-full accent-white"
           />
         </label>
       </div>
@@ -87,9 +87,9 @@ export function DobraDemo() {
   const arco = `M ${x1 + 60} ${y0} A 60 60 0 0 0 ${x1 + Math.cos(rad) * 60} ${y0 - Math.sin(rad) * 60}`;
   return (
     <div>
-      <svg viewBox="0 0 520 360" className="w-full" role="img" aria-label={`Vergalhão dobrado a ${ang} graus`}>
-        <circle cx={x1} cy={y0} r="14" fill="#12345a" stroke="#9aa6b2" strokeWidth="2" />
-        <path d={arco} fill="none" stroke="#ff6b16" strokeWidth="2" />
+      <svg viewBox="0 0 520 360" className="mx-auto max-h-[240px] w-full" role="img" aria-label={`Vergalhão dobrado a ${ang} graus`}>
+        <circle cx={x1} cy={y0} r="14" fill="#1f3060" stroke="#b9c2d3" strokeWidth="2" />
+        <path d={arco} fill="none" stroke="#ffffff" strokeWidth="2" />
         <line x1={x0} y1={y0} x2={x1} y2={y0} stroke="#c9d1d9" strokeWidth="12" strokeLinecap="round" />
         <line
           x1={x1}
@@ -100,7 +100,7 @@ export function DobraDemo() {
           strokeWidth="12"
           strokeLinecap="round"
         />
-        <text x={x1 + 72} y={y0 - 20} fill="#ff6b16" fontSize="22" fontFamily="var(--font-space)" className="tnum">
+        <text x={x1 + 72} y={y0 - 20} fill="#ffffff" fontSize="22" fontFamily="var(--font-space)" className="tnum">
           {ang}°
         </text>
       </svg>
@@ -112,15 +112,15 @@ export function DobraDemo() {
             onClick={() => setAng(a)}
             aria-pressed={ang === a}
             className={`tnum min-h-[44px] min-w-[64px] px-3 font-display text-[15px] transition-colors ${
-              ang === a ? "bg-orange text-navy" : "bg-tech text-white hover:bg-[#1a4473]"
+              ang === a ? "bg-white text-azul" : "bg-azul-2 text-white hover:bg-azul"
             }`}
           >
             {a}°
           </button>
         ))}
-        <label className="ml-auto flex w-full items-center gap-3 text-[15px] text-ink sm:w-60">
+        <label className="ml-auto flex w-full items-center gap-3 text-[15px] text-aco sm:w-60">
           <span className="sr-only">Ângulo da dobra</span>
-          <input id={id} type="range" min={0} max={135} step={5} value={ang} onChange={(e) => setAng(Number(e.target.value))} className="w-full accent-[#ff6b16]" />
+          <input id={id} type="range" min={0} max={135} step={5} value={ang} onChange={(e) => setAng(Number(e.target.value))} className="w-full accent-white" />
         </label>
       </div>
     </div>
@@ -152,9 +152,9 @@ export function MontagemDemo() {
   }, []);
   const ys = Array.from({ length: 12 }, (_, i) => 40 + i * 42);
   return (
-    <svg ref={ref} viewBox="0 0 360 560" className="h-full max-h-[70svh] w-full" role="img" aria-label="Armação de pilar sendo montada com estribos e barras longitudinais">
+    <svg ref={ref} viewBox="0 0 360 560" className="mx-auto h-[280px] w-full" role="img" aria-label="Armação de pilar sendo montada com estribos e barras longitudinais">
       {[120, 150, 210, 240].map((x) => (
-        <line key={x} data-longa x1={x} y1="20" x2={x} y2="540" stroke="#9aa6b2" strokeWidth="7" strokeLinecap="round" />
+        <line key={x} data-longa x1={x} y1="20" x2={x} y2="540" stroke="#b9c2d3" strokeWidth="7" strokeLinecap="round" />
       ))}
       {ys.map((y) => (
         <g key={y} data-estribo>
@@ -162,12 +162,12 @@ export function MontagemDemo() {
           <path d={`M108 ${y - 5} l16 -14`} stroke="#e3e8ed" strokeWidth="4" fill="none" />
         </g>
       ))}
-      <g stroke="#ff6b16" strokeWidth="1.5">
+      <g stroke="#ffffff" strokeWidth="1.5">
         <line x1="290" y1="40" x2="290" y2="82" />
         <line x1="282" y1="40" x2="298" y2="40" />
         <line x1="282" y1="82" x2="298" y2="82" />
       </g>
-      <text x="304" y="66" fill="#ff6b16" fontSize="15" fontFamily="var(--font-inter)">
+      <text x="304" y="66" fill="#ffffff" fontSize="15" fontFamily="var(--font-inter)">
         espaçamento
       </text>
     </svg>
@@ -192,7 +192,7 @@ const pecas = [
     svg: (
       <g fill="none" strokeLinecap="round">
         {[200, 230, 290, 320].map((x) => (
-          <line key={x} x1={x} y1="40" x2={x} y2="340" stroke="#9aa6b2" strokeWidth="8" />
+          <line key={x} x1={x} y1="40" x2={x} y2="340" stroke="#b9c2d3" strokeWidth="8" />
         ))}
         {Array.from({ length: 8 }, (_, i) => (
           <rect key={i} x="188" y={58 + i * 36} width="144" height="8" stroke="#e3e8ed" strokeWidth="4" />
@@ -206,7 +206,7 @@ const pecas = [
     svg: (
       <g fill="none" strokeLinecap="round">
         {[190, 220, 260, 300, 330].map((x) => (
-          <line key={x} x1={x} y1="40" x2={x} y2="340" stroke="#9aa6b2" strokeWidth="7" />
+          <line key={x} x1={x} y1="40" x2={x} y2="340" stroke="#b9c2d3" strokeWidth="7" />
         ))}
         {Array.from({ length: 14 }, (_, i) => (
           <path key={i} d={`M180 ${50 + i * 21} Q260 ${62 + i * 21} 340 ${50 + i * 21}`} stroke="#e3e8ed" strokeWidth="3.5" />
@@ -239,8 +239,8 @@ export function SobMedidaDemo() {
     gsap.fromTo(desenho.current, { opacity: 0, scale: 0.94, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" });
   }, [i]);
   return (
-    <div className="grid gap-8 md:grid-cols-12">
-      <div role="tablist" aria-label="Peças sob medida" className="flex flex-wrap gap-2 md:col-span-4 md:flex-col md:gap-0">
+    <div className="grid gap-5">
+      <div role="tablist" aria-label="Peças sob medida" className="flex flex-wrap gap-2">
         {pecas.map((p, k) => (
           <button
             key={p.nome}
@@ -259,19 +259,17 @@ export function SobMedidaDemo() {
               setI(n);
               document.getElementById(`peca-${n}`)?.focus();
             }}
-            className={`min-h-[44px] text-left font-display text-[clamp(1.45rem,2.3vw,2.25rem)] uppercase tracking-[-0.03em] transition-colors max-md:px-3 max-md:text-[17px] ${
-              i === k ? "text-orange max-md:bg-orange max-md:text-navy" : "text-white hover:text-orange max-md:bg-navy"
-            }`}
+            className={`min-h-[44px] px-4 font-display text-[16px] font-semibold uppercase tracking-[0.02em] transition-colors ${i === k ? "bg-white text-azul" : "bg-azul-2 text-white hover:bg-azul"}`}
           >
             {p.nome}
           </button>
         ))}
       </div>
-      <div id="peca-painel" role="tabpanel" aria-labelledby={`peca-${i}`} className="md:col-span-8">
-        <svg viewBox="0 0 520 380" className="max-h-[52svh] w-full bg-navy" role="img" aria-label={`Desenho técnico: ${pecas[i].nome}`}>
+      <div id="peca-painel" role="tabpanel" aria-labelledby={`peca-${i}`}>
+        <svg viewBox="0 0 520 380" className="mx-auto max-h-[240px] w-full" role="img" aria-label={`Desenho técnico: ${pecas[i].nome}`}>
           <g ref={desenho}>{pecas[i].svg}</g>
         </svg>
-        <p className="mt-4 text-[17px] text-white">{pecas[i].texto}</p>
+        <p className="mt-3 text-[15px] text-aco">{pecas[i].texto}</p>
       </div>
     </div>
   );

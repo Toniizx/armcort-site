@@ -10,8 +10,8 @@ import { base } from "@/lib/asset";
 const linhaVazia = (): Linha => ({ produto: "vergalhao-ca-50", medida: "", quantidade: "", unidade: "kg" });
 
 const campo =
-  "w-full min-h-[52px] bg-navy-2 px-4 text-[17px] text-white placeholder:text-metal outline-none transition-colors focus-visible:bg-tech focus-visible:outline-2 focus-visible:outline-orange";
-const rotulo = "mb-2 block text-[15px] text-ink";
+  "w-full min-h-[52px] border border-linha bg-white px-4 text-[17px] text-texto placeholder:text-cinza outline-none transition-colors hover:border-cinza focus-visible:border-azul focus-visible:outline-2 focus-visible:outline-azul";
+const rotulo = "mb-2 block text-[15px] font-medium text-texto";
 
 type Estado = { tipo: "parado" } | { tipo: "enviando" } | { tipo: "ok"; resumo: string } | { tipo: "alternativa"; resumo: string } | { tipo: "erro"; msg: string };
 
@@ -98,15 +98,15 @@ export default function QuoteBuilder() {
     const mail = `mailto:${site.email}?subject=${encodeURIComponent("Pedido de orçamento pelo site")}&body=${encodeURIComponent(estado.resumo)}`;
     return (
       <div ref={topo} tabIndex={-1} className="outline-none" aria-live="polite">
-        <p className="font-display text-[clamp(2.2rem,5vw,5rem)] font-semibold uppercase leading-[0.92] tracking-[-0.045em] text-white">
+        <p className="font-display text-[clamp(2rem,4.4vw,4rem)] font-semibold uppercase leading-[0.95] tracking-[-0.04em] text-azul">
           {estado.tipo === "ok" ? "Pedido enviado." : "Falta um passo."}
         </p>
-        <p className="mt-6 max-w-[56ch] text-[17px] text-ink">
+        <p className="mt-6 max-w-[56ch] text-[17px] text-texto-2">
           {estado.tipo === "ok"
             ? "Recebemos o seu pedido. A nossa equipe comercial responde pelo e-mail ou telefone que você informou."
             : "Envie o pedido abaixo pelo seu e-mail. Ele já vai escrito; se tiver o projeto, anexe antes de enviar."}
         </p>
-        <pre className="mt-8 max-h-[40svh] overflow-auto whitespace-pre-wrap bg-navy-2 p-6 font-sans text-[15px] text-ink">{estado.resumo}</pre>
+        <pre className="mt-8 max-h-[40svh] overflow-auto whitespace-pre-wrap bg-cinza-claro p-6 font-sans text-[15px] text-texto">{estado.resumo}</pre>
         <div className="mt-8 flex flex-wrap gap-4">
           {estado.tipo === "alternativa" && (
             <a href={mail} className="btn">
@@ -129,15 +129,15 @@ export default function QuoteBuilder() {
   return (
     <form ref={form} onSubmit={enviar} noValidate={false} className="grid gap-16" aria-describedby="orc-status">
       <div ref={topo} tabIndex={-1} id="orc-status" aria-live="polite" className="outline-none">
-        {estado.tipo === "erro" && <p className="bg-orange px-5 py-4 text-[17px] text-navy">{estado.msg}</p>}
+        {estado.tipo === "erro" && <p className="border-l-4 border-azul bg-azul-claro px-5 py-4 text-[17px] text-texto">{estado.msg}</p>}
       </div>
 
       {/* 1. Materiais, em forma de romaneio */}
       <fieldset>
-        <legend className="font-display text-[clamp(1.45rem,2.3vw,2.25rem)] text-white">
-          <span className="tnum mr-3 text-orange">1</span>Materiais
+        <legend className="flex items-center font-display text-[clamp(1.4rem,2vw,1.9rem)] font-semibold text-azul">
+          <span className="tnum mr-3 inline-flex h-9 w-9 items-center justify-center bg-azul text-[1rem] text-white">1</span>Materiais
         </legend>
-        <p className="mt-2 text-[15px] text-ink">Monte a lista como um romaneio. Deixe em branco se só precisa de serviço.</p>
+        <p className="mt-2 text-[15px] text-texto-2">Monte a lista como um romaneio. Deixe em branco se só precisa de serviço.</p>
         <div className="mt-6 grid gap-3">
           {linhas.map((l, i) => {
             const prod = produtos.find((p) => p.slug === l.produto)!;
@@ -189,7 +189,7 @@ export default function QuoteBuilder() {
                 <button
                   type="button"
                   onClick={() => setLinhas((ls) => (ls.length > 1 ? ls.filter((_, k) => k !== i) : [linhaVazia()]))}
-                  className="min-h-[52px] px-4 text-[15px] text-metal transition-colors hover:text-white"
+                  className="min-h-[52px] px-4 text-[15px] text-cinza transition-colors hover:text-azul"
                   aria-label={`Remover a linha ${i + 1}`}
                 >
                   Remover
@@ -205,8 +205,8 @@ export default function QuoteBuilder() {
 
       {/* 2. Serviços e obra */}
       <fieldset>
-        <legend className="font-display text-[clamp(1.45rem,2.3vw,2.25rem)] text-white">
-          <span className="tnum mr-3 text-orange">2</span>Serviços e obra
+        <legend className="flex items-center font-display text-[clamp(1.4rem,2vw,1.9rem)] font-semibold text-azul">
+          <span className="tnum mr-3 inline-flex h-9 w-9 items-center justify-center bg-azul text-[1rem] text-white">2</span>Serviços e obra
         </legend>
         <div className="mt-6 flex flex-wrap gap-2">
           {servicos.map((s) => {
@@ -214,8 +214,8 @@ export default function QuoteBuilder() {
             return (
               <label
                 key={s.slug}
-                className={`flex min-h-[52px] cursor-pointer items-center gap-3 px-5 text-[17px] transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-orange ${
-                  on ? "bg-orange text-navy" : "bg-navy-2 text-white hover:bg-tech"
+                className={`flex min-h-[52px] cursor-pointer items-center gap-3 px-5 text-[17px] transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-azul ${
+                  on ? "border border-azul bg-azul text-white" : "border border-linha bg-white text-texto hover:border-azul hover:text-azul"
                 }`}
               >
                 <input
@@ -259,17 +259,17 @@ export default function QuoteBuilder() {
               multiple
               accept=".pdf,.dwg,.dxf,image/*"
               onChange={(e) => setArquivos(Array.from(e.target.files ?? []))}
-              className="block w-full bg-navy-2 p-4 text-[15px] text-ink file:mr-4 file:min-h-[44px] file:border-0 file:bg-tech file:px-4 file:text-white"
+              className="block w-full border border-dashed border-cinza bg-cinza-claro p-4 text-[15px] text-texto-2 file:mr-4 file:min-h-[44px] file:border-0 file:bg-azul file:px-4 file:text-white"
             />
-            {tamanho > LIMITE_ANEXOS && <span className="mt-2 block text-[15px] text-orange">Os arquivos passam de 4 MB. Envie o projeto depois, por e-mail.</span>}
+            {tamanho > LIMITE_ANEXOS && <span className="mt-2 block text-[15px] font-semibold text-azul">Os arquivos passam de 4 MB. Envie o projeto depois, por e-mail.</span>}
           </label>
         </div>
       </fieldset>
 
       {/* 3. Contato */}
       <fieldset>
-        <legend className="font-display text-[clamp(1.45rem,2.3vw,2.25rem)] text-white">
-          <span className="tnum mr-3 text-orange">3</span>Seus dados
+        <legend className="flex items-center font-display text-[clamp(1.4rem,2vw,1.9rem)] font-semibold text-azul">
+          <span className="tnum mr-3 inline-flex h-9 w-9 items-center justify-center bg-azul text-[1rem] text-white">3</span>Seus dados
         </legend>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <label>
@@ -303,7 +303,7 @@ export default function QuoteBuilder() {
         <button type="submit" className="btn !min-h-[64px] !px-8" disabled={estado.tipo === "enviando"} data-magnetic>
           {estado.tipo === "enviando" ? "Enviando…" : "Enviar pedido de orçamento"} <span aria-hidden>↗</span>
         </button>
-        <p className="text-[15px] text-ink">* Campos obrigatórios. Usamos os seus dados só para responder ao pedido.</p>
+        <p className="text-[15px] text-texto-2">* Campos obrigatórios. Usamos os seus dados só para responder ao pedido.</p>
       </div>
     </form>
   );

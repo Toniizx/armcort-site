@@ -133,14 +133,14 @@ function Estaca({ leve, variante = "hero" }: Props) {
       <group ref={anel}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[RAIO + 0.2, 0.07, 12, 96]} />
-          <meshStandardMaterial color="#ff6b16" metalness={0.3} roughness={0.45} emissive="#ff6b16" emissiveIntensity={0.35} />
+          <meshStandardMaterial color="#c9d0dc" metalness={0.75} roughness={0.3} emissive="#263a6b" emissiveIntensity={0.25} />
         </mesh>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[RAIO + 0.36, 0.025, 8, 96]} />
-          <meshBasicMaterial color="#ff8a3d" toneMapped={false} />
+          <meshBasicMaterial color="#ffffff" toneMapped={false} />
         </mesh>
       </group>
-      <pointLight ref={luz} color="#ff6b16" distance={2.8} decay={1.3} intensity={0} />
+      <pointLight ref={luz} color="#ffb27a" distance={2.4} decay={1.4} intensity={0} />
     </group>
   );
 }
@@ -149,7 +149,7 @@ export default function HeroScene({ leve, variante = "hero" }: Props) {
   return (
     <Canvas
       dpr={leve ? [1, 1.5] : [1, 2]}
-      camera={{ position: [0, 0, 10], fov: 34 }}
+      camera={{ position: [0, 0, 12], fov: 34 }}
       gl={{ antialias: !leve, alpha: true, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;

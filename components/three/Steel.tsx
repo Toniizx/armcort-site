@@ -9,15 +9,15 @@ import { geometriaVergalhao, pontosEstribo, pontosReta, type Qualidade } from ".
 export function SteelStage({ laranja = 1 }: { laranja?: number }) {
   return (
     <>
-      <ambientLight intensity={0.15} />
+      <ambientLight intensity={0.4} />
       <directionalLight position={[4, 8, 6]} intensity={1.6} color="#dfe8f2" />
-      <directionalLight position={[-6, 2, -4]} intensity={0.9 * laranja} color="#ff6b16" />
+      <directionalLight position={[-6, 2, -4]} intensity={0.9 * laranja} color="#8fa7e0" />
       <Environment resolution={256} frames={1}>
-        <color attach="background" args={["#05111f"]} />
+        <color attach="background" args={["#101a36"]} />
         <Lightformer form="rect" intensity={3} color="#ffffff" position={[0, 6, 2]} scale={[12, 1.5, 1]} rotation-x={Math.PI / 2} />
         <Lightformer form="rect" intensity={1.6} color="#9aa6b2" position={[-6, 1, 3]} scale={[2, 8, 1]} rotation-y={Math.PI / 2} />
-        <Lightformer form="rect" intensity={2.4 * laranja} color="#ff6b16" position={[6, 0, -3]} scale={[1.2, 9, 1]} rotation-y={-Math.PI / 2} />
-        <Lightformer form="ring" intensity={1.2} color="#12345a" position={[0, -3, -6]} scale={6} />
+        <Lightformer form="rect" intensity={2.2 * laranja} color="#6f8fd8" position={[6, 0, -3]} scale={[1.2, 9, 1]} rotation-y={-Math.PI / 2} />
+        <Lightformer form="ring" intensity={1.2} color="#263a6b" position={[0, -3, -6]} scale={6} />
       </Environment>
     </>
   );
@@ -27,7 +27,7 @@ export function useSteelMaterial() {
   return useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: new THREE.Color("#7a8591"),
+        color: new THREE.Color("#a7b0bf"),
         metalness: 0.92,
         roughness: 0.36,
         envMapIntensity: 1.25,

@@ -13,13 +13,13 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <PageHero titulo="Solicitar orçamento" acao={false} compacto texto="Monte o pedido como um romaneio, anexe o projeto se tiver, e a nossa equipe comercial responde.">
-        <p data-reveal className="text-[15px] text-metal">
+      <PageHero titulo="Solicitar orçamento" rotulo="Orçamento" acao={false} compacto texto="Monte o pedido como um romaneio, anexe o projeto se tiver, e a nossa equipe comercial responde.">
+        <p data-reveal className="text-[15px] text-texto-2">
           Prefere falar? {site.telefone} · {site.email}
         </p>
       </PageHero>
-      <section className="wrap pb-[clamp(96px,14vh,180px)]">
-        <div className="max-w-[1100px]">
+      <section className="wrap py-[clamp(48px,8vh,96px)]">
+        <div className="painel max-w-[1100px] p-5 md:p-10">
           <Suspense>
             <QuoteBuilder />
           </Suspense>

@@ -20,14 +20,17 @@ const itens = [
 export default function Page() {
   return (
     <>
-      <PageHero titulo="Nossa estrutura" texto="Uma fábrica em Confins, MG, organizada para entregar o aço pronto, no dia em que a obra precisa." />
-      <section className="wrap grid gap-x-10 gap-y-12 pb-[clamp(56px,8vh,96px)] md:grid-cols-4" data-reveal-group aria-label="O que temos">
-        {itens.map((i) => (
-          <div key={i.titulo} data-reveal>
-            <p className="font-display text-[clamp(1.25rem,1.9vw,1.75rem)] font-medium text-white">{i.titulo}</p>
-            <p className="mt-2 text-ink">{i.texto}</p>
-          </div>
-        ))}
+      <PageHero titulo="Nossa estrutura" rotulo="A fábrica" texto="Uma fábrica em Confins, MG, organizada para entregar o aço pronto, no dia em que a obra precisa." />
+      <section className="bg-white py-[clamp(56px,8vh,96px)]" aria-label="O que temos">
+        <div className="wrap grid gap-3 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+          {itens.map((i, k) => (
+            <div key={i.titulo} data-reveal className="painel p-6">
+              <p className="tnum text-[13px] font-semibold text-cinza">{String(k + 1).padStart(2, "0")}</p>
+              <p className="mt-3 font-display text-[1.3rem] font-semibold text-azul">{i.titulo}</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-texto-2">{i.texto}</p>
+            </div>
+          ))}
+        </div>
       </section>
       <Industry />
       <Process />

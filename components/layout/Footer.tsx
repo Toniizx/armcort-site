@@ -1,97 +1,103 @@
 import Link from "next/link";
 import { navegacao, site, enderecoLinha, whatsappLink } from "@/lib/site";
-import { servicos } from "@/lib/content";
+import { servicos, produtos } from "@/lib/content";
+import Logo from "./Logo";
 
 export default function Footer() {
   const wa = whatsappLink("Olá! Vim pelo site da ARM-CORT.");
   return (
-    <footer data-theme="light" className="relative grid min-h-[100svh] grid-rows-[auto_1fr_auto] bg-paper text-navy">
-      <div className="wrap grid grid-cols-2 gap-x-6 gap-y-10 pt-14 text-[15px] md:grid-cols-12 md:pt-12">
-        <div className="col-span-2 md:col-span-3">
-          <p className="font-medium">Fábrica</p>
-          <p className="text-muted-dark">{enderecoLinha}</p>
-          <a href={site.mapa} target="_blank" rel="noopener" className="link-line mt-2 inline-block font-medium">
-            Ver no mapa ↗
-          </a>
+    <footer className="escuro relative">
+      <div className="grade-escura pointer-events-none absolute inset-0" aria-hidden />
+      <div className="wrap relative grid gap-12 py-16 md:grid-cols-12 md:py-20">
+        <div className="md:col-span-4">
+          <Logo variante="branca" className="w-[190px]" />
+          <p className="mt-6 max-w-[34ch] text-[15px] leading-relaxed text-aco">
+            Indústria e comércio de aço para a construção civil. Corte, dobra e montagem de armações em Confins, MG.
+          </p>
+          <Link href="/orcamento" className="btn mt-8">
+            Solicitar orçamento <span aria-hidden>↗</span>
+          </Link>
         </div>
-        <div className="md:col-span-2 md:col-start-5">
-          <p className="font-medium">Navegação</p>
-          <ul className="text-muted-dark">
-            {navegacao.map((n) => (
-              <li key={n.href}>
-                <Link href={n.href} className="link-line hover:text-navy">
-                  {n.rotulo}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="md:col-span-2">
-          <p className="font-medium">Soluções</p>
-          <ul className="text-muted-dark">
-            {servicos.map((s) => (
-              <li key={s.slug}>
-                <Link href={`/solucoes/${s.slug}`} className="link-line hover:text-navy">
-                  {s.nome}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="col-span-2 md:col-span-3 md:col-start-10">
-          <p className="font-medium">Fale com a gente</p>
-          <ul className="text-muted-dark">
+
+        <nav aria-label="Rodapé" className="grid grid-cols-2 gap-8 text-[15px] md:col-span-5 md:grid-cols-3">
+          <div>
+            <p className="mb-3 font-semibold text-white">Navegação</p>
+            <ul className="grid gap-1.5 text-aco">
+              {navegacao.map((n) => (
+                <li key={n.href}>
+                  <Link href={n.href} className="link-line hover:text-white">
+                    {n.rotulo}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="mb-3 font-semibold text-white">Soluções</p>
+            <ul className="grid gap-1.5 text-aco">
+              {servicos.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/solucoes/${s.slug}`} className="link-line hover:text-white">
+                    {s.nome}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="mb-3 font-semibold text-white">Produtos</p>
+            <ul className="grid gap-1.5 text-aco">
+              {produtos.map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/produtos/${p.slug}`} className="link-line hover:text-white">
+                    {p.nome}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
+        <div className="text-[15px] md:col-span-3">
+          <p className="mb-3 font-semibold text-white">Fale com a gente</p>
+          <ul className="grid gap-1.5 text-aco">
             <li>
-              <a href={site.telefoneLink} className="link-line hover:text-navy">
+              <a href={site.telefoneLink} className="link-line hover:text-white">
                 {site.telefone}
               </a>
             </li>
             <li>
-              <a href={`mailto:${site.email}`} className="link-line hover:text-navy">
+              <a href={`mailto:${site.email}`} className="link-line hover:text-white">
                 {site.email}
               </a>
             </li>
             {wa && (
               <li>
-                <a href={wa} target="_blank" rel="noopener" className="link-line hover:text-navy">
+                <a href={wa} target="_blank" rel="noopener" className="link-line hover:text-white">
                   WhatsApp
                 </a>
               </li>
             )}
+            <li className="pt-2">{enderecoLinha}</li>
             <li>
-              <a href={site.instagram} target="_blank" rel="noopener" className="link-line hover:text-navy">
-                Instagram {site.instagramUser}
+              <a href={site.mapa} target="_blank" rel="noopener" className="link-line text-white">
+                Ver no mapa ↗
               </a>
             </li>
-            <li>
-              <a href={site.facebook} target="_blank" rel="noopener" className="link-line hover:text-navy">
+            <li className="flex gap-4 pt-2">
+              <a href={site.instagram} target="_blank" rel="noopener" className="link-line hover:text-white">
+                Instagram
+              </a>
+              <a href={site.facebook} target="_blank" rel="noopener" className="link-line hover:text-white">
                 Facebook
               </a>
             </li>
           </ul>
-          <Link href="/orcamento" className="btn mt-6">
-            Solicitar orçamento <span aria-hidden>↗</span>
-          </Link>
         </div>
       </div>
-
-      <div />
-
-      <div translate="no" className="wrap pb-[calc(76px+env(safe-area-inset-bottom))] sm:pb-5">
-        <svg viewBox="0 0 1000 152" className="block w-full" role="img" aria-label="ARM-CORT">
-          <text
-            x="0"
-            y="138"
-            textLength="1000"
-            lengthAdjust="spacingAndGlyphs"
-            className="fill-navy font-display"
-            style={{ fontSize: 178, fontWeight: 700, letterSpacing: "-0.04em" }}
-          >
-            ARM-CORT
-          </text>
-        </svg>
-        <div className="mt-4 flex flex-col justify-between gap-1 text-[13px] text-muted-dark md:flex-row">
-          <p>
+      <div className="relative border-t border-white/10">
+        <div className="wrap flex flex-col justify-between gap-1 py-5 pb-[calc(76px+env(safe-area-inset-bottom))] text-[13px] text-aco sm:pb-5 md:flex-row">
+          <p translate="no">
             © {new Date().getFullYear()} {site.razaoSocial} · CNPJ {site.cnpj}
           </p>
           <p>{site.pagamento}</p>

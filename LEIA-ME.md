@@ -19,9 +19,32 @@ npm run typecheck
 npm run build
 ```
 
-## Publicar (Vercel)
+## Prévia no GitHub Pages (por enquanto)
 
-1. Crie um repositório próprio no GitHub para esta pasta. Ela fica fora do Git do Prospecta.
+- **Código:** https://github.com/Toniizx/armcort-site (branch `main`).
+- **Site no ar:** https://toniizx.github.io/armcort-site/
+- **Para atualizar a prévia** depois de mudar algo, rode `npm run publicar-github`. O comando:
+  - monta a versão estática;
+  - envia para o branch `gh-pages`;
+  - deixa o site atualizado em 1 ou 2 minutos.
+- **O que não funciona no GitHub Pages**, porque ele não tem servidor:
+  - o envio do orçamento: o formulário manda o pedido pelo e-mail da própria pessoa;
+  - os redirecionamentos dos endereços antigos.
+
+  Na Vercel, as duas coisas funcionam.
+- O código no `main` vai com `git push` normal. A prévia só muda com `npm run publicar-github`.
+
+No outro PC, clone com:
+
+```
+git clone https://github.com/Toniizx/armcort-site.git data/clientes/arm-cort/site
+```
+
+Depois rode `npm install` dentro da pasta.
+
+## Publicar de vez (Vercel)
+
+1. O repositório já existe: `Toniizx/armcort-site`. Ele fica fora do Git do Prospecta.
 2. Importe o repositório na Vercel. Ela reconhece o Next.js sozinha.
 3. Em **Settings → Environment Variables**, cadastre as três variáveis do envio de orçamento por e-mail:
    - `RESEND_API_KEY`: a chave da conta na resend.com;
