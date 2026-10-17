@@ -1,0 +1,29 @@
+{
+  "slug": "nome-da-obra",
+  "status": "pesquisa",
+  "nome": "Nome oficial do empreendimento",
+  "cidade": "Cidade",
+  "uf": "MG",
+  "cliente": "Construtora ou cliente responsável",
+  "tipo": "Residencial, comercial, industrial, infraestrutura…",
+  "ano": "2025",
+  "participacao": ["corte", "dobra", "montagem"],
+  "pecas": ["Estacas", "Sapatas", "Pilares"],
+  "descricao": "Descrição objetiva do que a ARM-CORT forneceu ou executou nesta obra.",
+  "fotos": [
+    {
+      "arquivo": "/obras/nome-da-obra/01.jpg",
+      "alt": "O que aparece na foto",
+      "credito": "Quem fez a foto",
+      "origem": "Enviada pela ARM-CORT em DD/MM/AAAA",
+      "autorizada": false,
+      "largura": 2400,
+      "altura": 1600
+    }
+  ],
+  "comprovacao": [
+    { "descricao": "Como a participação foi comprovada", "link": "https://…" }
+  ],
+  "autorizacaoPublicacao": null,
+  "observacoes": ""
+}

@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/* ARM-CORT — tokens. Paleta do briefing: #071A30 #12345A #FF6B16 #FFFFFF #9AA6B2. */
+@theme {
+  --color-navy: #071a30;
+  --color-navy-2: #0b2440;
+  --color-tech: #12345a;
+  --color-orange: #ff6b16;
+  --color-white: #ffffff;
+  --color-ink: #eef2f6;
+  --color-metal: #9aa6b2;
+  --color-paper: #eef1f4;
+  --color-paper-2: #e2e7ec;
+  --color-ink-dark: #071a30;
+  --color-muted-dark: #3d5168;
+
+  --font-display: var(--font-space), "Arial Narrow", Arial, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* Cinco tamanhos fazem o trabalho visível. */
+  --text-mega: clamp(3.1rem, 10.4vw, 12rem);
+  --text-mega--line-height: 0.88;
+  --text-big: clamp(2.2rem, 5.6vw, 6rem);
+  --text-big--line-height: 0.95;
+  --text-mid: clamp(1.45rem, 2.3vw, 2.25rem);
+  --text-mid--line-height: 1.15;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+
+  --ease-steel: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --gutter: clamp(16px, 2.4vw, 36px);
+  --header-h: 72px;
+  color-scheme: dark;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  background: var(--color-navy);
+  color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  background: var(--color-navy);
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+[id] {
+  scroll-margin-top: calc(var(--header-h) + 16px);
+}
+
+::selection {
+  background: var(--color-orange);
+  color: var(--color-navy);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 3px;
+}
+
+@layer components {
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  font-weight: 500;
+}
+
+.wrap {
+  padding-inline: var(--gutter);
+}
+
+/* Botão principal: retângulo sólido laranja, cantos retos. Único elemento sólido claro da tela. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 52px;
+  padding: 0 1.4rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: var(--color-orange);
+  color: var(--color-navy);
+  transition:
+    background-color 0.3s var(--ease-steel),
+    color 0.3s var(--ease-steel);
+  touch-action: manipulation;
+}
+.btn:hover {
+  background: var(--color-white);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 52px;
+  padding: 0 0.25rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  touch-action: manipulation;
+}
+
+/* Sublinhado animado dos links */
+.link-line {
+  background-image: linear-gradient(currentColor, currentColor); /* taste-skill-ignore: pedido do briefing */
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.45s var(--ease-steel);
+}
+.link-line:hover,
+.link-line:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Linhas de cota e grade de engenharia (pedido do briefing) */
+.cota {
+  position: relative;
+  height: 1px; /* taste-skill-ignore: pedido do briefing */
+  background: currentColor;
+  transform-origin: left center;
+}
+.cota::before,
+.cota::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 1px;
+  height: 13px;
+  background: currentColor;
+}
+.cota::before {
+  left: 0;
+}
+.cota::after {
+  right: 0;
+}
+.grade {
+  background-image:
+    linear-gradient(to right, rgb(154 166 178 / 0.07) 1px, transparent 1px), /* taste-skill-ignore: pedido do briefing */
+    linear-gradient(to bottom, rgb(154 166 178 / 0.07) 1px, transparent 1px); /* taste-skill-ignore: pedido do briefing */
+  background-size: calc(100% / 12) 96px;
+}
+
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Conteúdo que entra com animação começa visível; o script só esconde se puder animar. */
+.js-anim [data-reveal] {
+  will-change: transform, opacity;
+}
+
+/* Imagens: cantos retos, sem moldura */
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Cursor personalizado só onde há mouse */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor a,
+  html.has-cursor button {
+    cursor: none;
+  }
+  html.has-cursor input,
+  html.has-cursor textarea,
+  html.has-cursor select {
+    cursor: auto;
+  }
+}
+
+/* Máscara das linhas que surgem: folga em cima para os acentos de maiúsculas (Á, É, Ã) */
+.linha-mask {
+  padding-top: 0.16em;
+  margin-top: -0.16em;
+  padding-bottom: 0.04em;
+  margin-bottom: -0.04em;
+}
