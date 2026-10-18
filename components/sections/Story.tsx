@@ -13,8 +13,8 @@ ScrollTrigger.config({ ignoreMobileResize: true });
 const StoryScene = dynamic(() => import("@/components/three/StoryScene"), { ssr: false });
 
 // A barra é cortada, dobrada em estribo, repetida e montada em armação.
-const etapas = [
-  { titulo: "Uma barra reta", nota: "Vergalhão CA-50, nervurado, conforme a NBR 7480." },
+const etapas: { titulo: string; nota: string; detalhe?: string }[] = [
+  { titulo: "Uma barra reta", detalhe: "(Início de beneficiamento)", nota: "Vergalhão CA-50, nervurado, conforme a NBR 7480/25." },
   { titulo: "Cortada na medida do projeto", nota: "Projeto e formas conferidos pela nossa engenharia." },
   { titulo: "Dobrada em estribo", nota: "Medidas e norma de dobramento respeitadas." },
   { titulo: "Repetida com precisão", nota: "Cada peça sai identificada com etiqueta." },
@@ -54,6 +54,7 @@ function EtapasEmCartoes() {
               <div className="aspect-[2/1] px-4">{desenhos[i]}</div>
               <div className="px-5 pb-5">
                 <h3 className="font-display text-[1.35rem] font-semibold leading-tight text-white">{e.titulo}</h3>
+                {e.detalhe && <p className="mt-1 text-[15px] font-semibold text-white">{e.detalhe}</p>}
                 <p className="mt-1 text-[15px] text-aco">{e.nota}</p>
               </div>
             </li>
@@ -69,6 +70,7 @@ function EtapasEm3D({ leve }: { leve: boolean }) {
   const raiz = useRef<HTMLElement>(null);
   const progresso = useRef(0);
   const [ativa, setAtiva] = useState(0);
+  const [noFim, setNoFim] = useState(false);
   const perto = usePerto(raiz, "150% 0px");
 
   useEffect(() => {
@@ -79,6 +81,7 @@ function EtapasEm3D({ leve }: { leve: boolean }) {
       scrub: true,
       onUpdate: (self) => {
         progresso.current = self.progress;
+        setNoFim(self.progress > 0.9);
         let i = 0;
         marcos.forEach((m, k) => {
           if (self.progress >= m) i = k;
@@ -125,7 +128,8 @@ function EtapasEm3D({ leve }: { leve: boolean }) {
               </p>
               <p className="mt-1 font-display text-[1.45rem] font-semibold leading-tight text-white">{atual.titulo}</p>
             </div>
-            <p className="mt-2 min-h-[3em] text-[15px] text-aco lg:mt-6" aria-live="polite">
+            <p className="mt-2 min-h-[4.5em] text-[15px] text-aco lg:mt-6" aria-live="polite">
+              {atual.detalhe && <span className="block font-semibold text-white">{atual.detalhe}</span>}
               {atual.nota}
             </p>
             <div className="mt-3 grid grid-cols-6 gap-1 lg:mt-4" aria-hidden>
@@ -134,6 +138,24 @@ function EtapasEm3D({ leve }: { leve: boolean }) {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* aviso para rolar: muita gente não percebia que a animação anda com a rolagem */}
+        <div
+          className={`pointer-events-none absolute inset-x-0 z-20 flex justify-center transition-opacity duration-500 max-lg:top-[calc(var(--header-h)+14px)] lg:bottom-10 lg:left-[34rem] ${noFim ? "opacity-0" : "opacity-100"}`}
+          aria-hidden={noFim}
+        >
+          <p className="flex items-center gap-4 bg-white px-5 py-3 text-azul shadow-[0_12px_36px_rgb(0_0_0/0.4)] lg:px-7 lg:py-5">
+            <span className="aviso-rolar flex h-10 w-10 shrink-0 items-center justify-center bg-azul text-white lg:h-12 lg:w-12" aria-hidden>
+              <svg viewBox="0 0 16 16" className="h-5 w-5 lg:h-6 lg:w-6">
+                <path d="M8 2v11M3 8.5 8 13.5l5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" />
+              </svg>
+            </span>
+            <span className="leading-tight">
+              <span className="block font-display text-[1.2rem] font-semibold lg:text-[1.5rem]">Role para baixo</span>
+              <span className="block text-[14px] text-texto-2 lg:text-[15px]">e veja a barra virar armação</span>
+            </span>
+          </p>
         </div>
       </div>
     </section>

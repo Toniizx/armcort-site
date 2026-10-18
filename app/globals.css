@@ -288,6 +288,20 @@ video {
   max-width: 100%;
 }
 
+/* Seta do aviso "Role para baixo" na animação da barra */
+@keyframes aviso-rolar {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+.aviso-rolar svg {
+  animation: aviso-rolar 1.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

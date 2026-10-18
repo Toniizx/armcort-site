@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/Hero";
 import Intro from "@/components/sections/Intro";
 import Story from "@/components/sections/Story";
+import Comercial from "@/components/sections/Comercial";
 import Services from "@/components/sections/Services";
 import Process from "@/components/sections/Process";
 import Industry from "@/components/sections/Industry";
@@ -18,6 +19,7 @@ export default function Home() {
       <Hero />
       <Intro />
       <Story />
+      <Comercial />
       <Services />
       <Process />
       {obras.length > 0 ? (

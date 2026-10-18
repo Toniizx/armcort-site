@@ -64,6 +64,7 @@ Depois rode `npm install` dentro da pasta.
 | Mostrar os nomes dos clientes | `lib/content.ts` → `mostrarClientes` (só com autorização) |
 | Obras | `content/obras/` (ver o `LEIA-ME.md` de lá) |
 | Fotos e vídeos | `public/media/` |
+| Comercial de 30 s da página inicial | `public/media/comercial-30s.mp4` e a capa `comercial-30s.jpg`; a seção é `components/sections/Comercial.tsx`. O vídeo sai do projeto `../video` (`npm run render -- --curta` e `npm run som -- <vídeo> --curta`). |
 | Cores e tamanhos de letra | `app/globals.css` (bloco `@theme`) |
 | Logo | `components/layout/Wordmark.tsx`. Por enquanto é provisório, em texto. Trocar pelo logo oficial em vetor. |
 
@@ -71,12 +72,13 @@ Depois rode `npm install` dentro da pasta.
 
 - **Página inicial** (`app/page.tsx`):
   1. abertura com a estaca em 3D;
-  2. a barra que vira armação (3D preso à rolagem);
-  3. os 4 serviços, cada um com a sua interação;
-  4. o processo na horizontal;
-  5. a fábrica;
-  6. os produtos com o comparador de bitolas;
-  7. o fechamento em 3D.
+  2. a barra que vira armação (3D preso à rolagem), com o aviso "Role para baixo";
+  3. o comercial de 30 s (toca sem som quando aparece; "Ouvir com som" volta ao começo com som);
+  4. os 4 serviços, cada um com a sua interação;
+  5. o processo na horizontal;
+  6. a fábrica;
+  7. os produtos com o comparador de bitolas;
+  8. o fechamento em 3D.
 - **3D** (`components/three/`): as peças são geradas por código. Nenhum arquivo 3D é baixado.
   - No celular, as cenas ficam mais leves.
   - Com "reduzir movimento" ligado, ou sem WebGL, aparece um desenho técnico parado no lugar.
